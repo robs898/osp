@@ -1,5 +1,5 @@
 provider "google" {
-  credentials = "${file("~/Documents/account.json")}"
+  credentials = "${file("/Users/rma32/Documents/account.json")}"
   project     = "rm-dev-1"
   region      = "europe-west2"
 }
@@ -18,7 +18,7 @@ resource "google_compute_firewall" "stream1" {
   }
   allow {
     protocol = "tcp"
-    ports    = ["80"]
+    ports    = ["80", "22"]
   }
 
   target_tags = ["stream"]

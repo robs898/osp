@@ -13,9 +13,9 @@
     {
       "type": "shell",
       "inline":[
-          "sudo apt-get update",
-          "sudo apt-get install -y ffmpeg nginx",
-          "sudo sed -i 's/var\\/www\\/html/dev\\/shm/g' /etc/nginx/sites-enabled/default"
+        "sudo apt-get update",
+        "sudo apt-get install -y ffmpeg nginx",
+        "sudo sed -i 's/var\\/www\\/html/dev\\/shm/g' /etc/nginx/sites-enabled/default"
       ]
     }
   ]
