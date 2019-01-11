@@ -1,0 +1,22 @@
+{
+  "builders": [
+    {
+      "type": "googlecompute",
+      "account_file": "~/Documents/account.json",
+      "project_id": "rm-dev-1",
+      "source_image_family": "debian-9",
+      "ssh_username": "packer",
+      "zone": "us-central1-a"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline":[
+          "sudo apt-get update",
+          "sudo apt-get install -y ffmpeg nginx",
+          "sudo sed -i 's/var\\/www\\/html/dev\\/shm/g' /etc/nginx/sites-enabled/default"
+      ]
+    }
+  ]
+}
