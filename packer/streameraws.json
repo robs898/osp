@@ -1,14 +1,26 @@
 {
-  "builders": [
-    {
-      "type": "googlecompute",
-      "account_file": "/Users/rma32/Documents/account.json",
-      "project_id": "rm-dev-1",
-      "source_image_family": "ubuntu-1810",
-      "ssh_username": "packer",
-      "zone": "us-central1-a"
-    }
-  ],
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "us-east-1",
+    "source_ami_filter": {
+      "filters": {
+        "virtualization-type": "hvm",
+        "name": "ubuntu/images/*ubuntu-cosmic-18.10-amd64-server-*",
+        "root-device-type": "ebs"
+      },
+      "owners": ["099720109477"],
+      "most_recent": true
+    },
+    "instance_type": "t2.micro",
+    "ssh_username": "ubuntu",
+    "ami_name": "packer-streamer-{{timestamp}}"
+  }],
   "provisioners": [
     {
       "type": "shell",

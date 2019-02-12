@@ -1,0 +1,3 @@
+# Opensource Streaming Platform
+
+Trying to build a streaming platform using opensource software...

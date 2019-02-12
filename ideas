@@ -1,0 +1,31 @@
+ffmpeg FEC
+-f rtp_mpegts -fec prompeg=l=8:d=4 rtp://hostname:port
+
+VAAPI
+
+set g to 52 ??
+
+-re
+
+udp ? options
+udp://192.168.2.2:1234?pkt_size=1316
+
+
+rtmp with fec
+ffmpeg -re -i <source_file> -ar 44100 -ac 2 -ab 128k -vcodec libx264 -f flv rtmp://<IP>/AppName/AppInstance 
+
+
+-g 60 -keyint_min 60
+
+
+DASH
+FFmpeg -i input.avi -f h264 -c:v libx264 -aspect 16:9 -preset slow -profile:v high -r 50 -g 100 -force_key_frames "expr:gte(t,n_forced*2)" -b:v 3584k -maxrate 3584k -bufsize 7168k -x264opts nal-hrd=vbr -c:a libfdk_aac -b:a 192k -ar 48k -ac 2 output.mp4
+
+
+-hwaccel qsv -vcodec h264_qsv -f mpegts -i in -vcodec h264_qsv  -vf deinterlace_qsv,scale_qsv=1280:720,hwdownload,format=nv12 -b:v 1M -minrate 250K -maxrate 1M -bufsize 2M -y -acodec aac -ab 64k -ac 2 -f mpegts out
+
+
+
+docker run -it --rm --name dasher -p 80:80 -p 5004-5007:5004-5007/udp -p 8554:8554 -p 8080:8080 -v /Users/rma32/work/dev/osp/dashSegmentsLMS/:/home/lms/lmsSegments uai2cat/lms-dasher-web-app
+docker run -it --rm --name api --net container:dasher uai2cat/lms-rest-api
+docker run -it --rm --name lms -v /home/dashSegmentsLMS/:/home/lms/lmsSegments --net container:api uai2cat/lms:development

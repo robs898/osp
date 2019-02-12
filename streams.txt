@@ -1,0 +1,13 @@
+https://ngx.cr5.streamzilla.xlcdn.com/session/75c8a2c55b6f9c4db6b86283cebf3b77/sz/streamdays/wowza4/live/nymr-grosmont/chunklist.m3u8
+
+https://ngx.cr6.streamzilla.xlcdn.com/session/b87762e3ded359b7a9a2135f6a5a8b25/sz/streamdays/wowza4/live/brightoncityairport/chunklist.m3u8
+
+https://videos3.earthcam.com/fecnetwork/hdtimes10.flv/chunklist_w1869305954.m3u
+
+https://videos3.earthcam.com/fecnetwork/AbbeyRoadHD1.flv/chunklist_w2042564408.m3u8
+
+https://videos3.earthcam.com/fecnetwork/nabtrcam1.flv/chunklist_w285217347.m3u8
+
+
+ffmpeg -i https://videos3.earthcam.com/fecnetwork/nabtrcam1.flv/chunklist_w285217347.m3u8 -f flv rtmp://stream1-instance
+ffmpeg -y -listen 1 -i rtmp://stream1-instance:1935 03.m3u8

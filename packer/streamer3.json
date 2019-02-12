@@ -1,0 +1,64 @@
+{
+  "builders": [
+    {
+      "type": "googlecompute",
+      "account_file": "/Users/rma32/Documents/account.json",
+      "project_id": "rm-dev-1",
+      "source_image_family": "ubuntu-1810",
+      "ssh_username": "packer",
+      "zone": "us-central1-a"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline":[
+        "sudo apt-get update",
+        "sudo apt-get -y install git cmake autoconf automake build-essential libass-dev libtheora-dev libtool libvorbis-dev pkg-config zlib1g-dev libcppunit-dev yasm libx264-dev libmp3lame-dev libopus-dev libvpx-dev libfdk-aac-dev liblog4cplus-dev libtinyxml2-dev opencv-data libopencv-dev libsdl2-dev",
+        "sudo apt-get -y install mercurial cmake-curses-gui",
+        "hg clone https://bitbucket.org/multicoreware/x265",
+        "cd x265",
+        "cmake -G \"Unix Makefiles\" ./source",
+        "make",
+        "sudo make install",
+        "wget https://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2",
+        "tar xjvf ffmpeg-snapshot.tar.bz2",
+        "cd ffmpeg",
+        "./configure --enable-gpl --enable-libass --enable-libtheora --enable-libvorbis --enable-libx264 --enable-nonfree --enable-shared --enable-libopus --enable-libmp3lame --enable-libvpx --enable-libfdk_aac --enable-libx265 --enable-ffplay --enable-sdl",
+        "make",
+        "sudo make install",
+        "wget http://www.live555.com/liveMedia/public/live555-latest.tar.gz",
+        "tar xaf live555-latest.tar.gz",
+        "cd live",
+        "./genMakefiles linux-with-shared-libraries",
+        "make",
+        "sudo make install",
+        "git clone https://github.com/ua-i2cat/livemediastreamer.git",
+        "cd livemediastreamer",
+        "./autogen.sh",
+        "make",
+        "sudo make install",
+        "sudo sysctl -w net.core.rmem_max=2097152",
+        "sudo sysctl -w net.core.rmem_default=2097152",
+        "sudo sysctl -w net.core.wmem_max=2097152",
+        "sudo sysctl -w net.core.wmem_default=2097152",
+        "sudo apt-get -y install mongodb nginx libcurl3",
+        "sudo service mongodb restart",
+        "gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3",
+        "curl -sSL https://get.rvm.io | bash -s stable",
+        "rvm install 2.0.0",
+        "rvm use 2.0.0",
+        "gem install bundle",
+        "git clone https://github.com/ua-i2cat/livemediastreamerwebgui.git",
+        "cd livemediastreamerwebgui/rmixer",
+        "bundle install",
+        "cd ../api",
+        "bundle install",
+        "mkdir tmp",
+        "mkdir tmp/sockets",
+        "mkdir tmp/pids",
+        "mkdir log"
+      ]
+    }
+  ]
+}
